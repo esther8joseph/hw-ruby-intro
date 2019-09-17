@@ -108,26 +108,23 @@ tests via: $ rspec -e '#price_as_string' spec/part3_spec.rb
 
 =end
 class BookInStock
-  
-  #attributes
-  attr_reader :isbn, :price
-  attr_writer :isbn, :price
-  
+
+  attr_accessor :isbn
+  attr_accessor :price
+
   #constructor
-  def self.initialize(isbn,price)
-    if isbn[0] == 0 and isbn.contains("-")
-      if price != 0 and price > 0
-        @isbn = isbn
-        @price = price
-      end
-    else
-     return false
+  def initialize(isbn,price)
+    @isbn = isbn
+    @price = price
+    if @isbn.empty? or @price == 0 
+      ArgumentError.new("Get the values for ISBN or price")
     end
   end
   
-  def self.price_as_string(price) #ask
-    round_price = price.round(2)
-    print "$#{round_price}"
+  def price_as_string
+    round_price = sprintf('%.2f', @price)
+    print(round_price)
+    return "$#{round_price}"
   end
   
 end
